@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html class="ui-mobile-rendering">
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
+
+    <!-- The Templates -->
+    <script type="text/template" id="home">
+
+        <div data-role="header">
+            <h1>2015 Annual Dinner</h1>
+        </div>
+
+	<section class="">
+		<form name="login" action="#" method="post" accept-charset="utf-8">
+			<ul>
+				<li>
+					<label for="usermail">E-mail</label>
+					<input type="email" name="usermail" placeholder="yourname@email.com" required>
+				</li>
+				<li>
+					<label for="password">GID</label>
+					<input type="password" name="gid" placeholder="password" required></li>
+				<li>
+					<input type="submit" name="submitButton" value="Login">
+				</li>
+			</ul>
+		</form>
+	</section>
+    </script>
+
+    <script type="text/template" id="page1">
+
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>Page 1</h1>
+        </div>
+
+        <div data-role="content">
+            <p>This is Page 1. It was created dynamically using an underscore.js template.</p>
+            <p>Navigate to:</p>
+            <ul data-role="listview" data-inset="true">
+                <li><a href="#">Home</a></li>
+                <li><a href="#page2">Page 2</a></li>
+            </ul>
+        </div>
+
+    </script>
+
+    <script type="text/template" id="page2">
+
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>Page 2</h1>
+        </div>
+
+        <div data-role="content">
+            <p>This is Page 2. It was created dynamically using an underscore.js template.</p>
+            <p>Navigate to:</p>
+            <ul data-role="listview" data-inset="true">
+                <li><a href="#">Home</a></li>
+                <li><a href="#page1">Page 1</a></li>
+            </ul>
+        </div>
+
+    </script>
+
+    <!-- The Scripts -->
+    <script src="lib/jquery-1.7.1.min.js"></script>
+    <script src="js/jqm-config.js"></script>
+    <script src="lib/jquery.mobile-1.0.1.min.js"></script>
+    <script src="lib/underscore-min.js"></script>
+    <script src="lib/backbone-min.js"></script>
+    <script src="js/main.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#submitButton').click(function () {
+            jQuery.support.cors = true;
+
+            $.ajax(
+                {
+                    type: "GET",
+                    url:                      'http://fastmotorcycleservice.cloudapp.net/FastMotorcycleListService.svc/list/Bruno',
+                            data: "{}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        //alert('success');
+                        $.each(data, function (i, theItem) {
+                            var user = document.getElementsByName("usermail");
+                            var pwd = document.getElementsByName("gid");
+                            var option = document.createElement("option");
+                            option.text = theItem.toString();
+                            option.value = theItem.toString();
+                            try {
+                                //alert('success add combo');
+                                combo.add(option, null); // Other browsers
+                            }
+                            catch (error) {
+                                alert('error found');
+                                combo.add(option); // really old browser
+                            }
+
+                        });
+                    },
+                    error: function (msg, url, line) {
+                        alert('error trapped in error: function(msg, url, line)');
+                        alert('msg = ' + msg + ', url = ' + url + ', line = ' + line);
+
+                    }
+                });
+
+
+            //alert('button click');
+
+        });
+    });
+</script>
+</body>
+
+</html>
